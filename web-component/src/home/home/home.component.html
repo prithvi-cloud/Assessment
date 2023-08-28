@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <div class="navbar-content">
+    <div class="ml-3">
+      <h3 routerLink="/home">Demo</h3>
+    </div>
+    <div>
+      <p-button  icon="pi pi-plus" styleClass="p-button-rounded p-button-secondary"
+        pTooltip="Create Credit Card Request" tooltipPosition="top" (click)="creditCardPopupStatus= true"></p-button>
+
+      <p-button  icon="pi pi-plus" styleClass="p-button-rounded p-button-secondary"
+        pTooltip="Create Customer Or Staff" (click)="userCardPopupStatus= true"></p-button>
+
+      <p-avatar label="V" styleClass="mr-2" size="large" [style]="{ 'background-color': '#2196F3', color: '#ffffff' }"
+        shape="circle" routerLink="/home/user"></p-avatar>
+
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>
+
+<p-dialog header="Create Credit Card Request" [(visible)]="creditCardPopupStatus" [style]="{width: '50vw'}"
+  [modal]="true">
+  <app-create-request-credit-card></app-create-request-credit-card>
+</p-dialog>
+
+<p-dialog header="Create Customer Or Staff" [(visible)]="userCardPopupStatus" [style]="{width: '50vw'}" [modal]="true">
+  <app-create-customer></app-create-customer>
+</p-dialog>

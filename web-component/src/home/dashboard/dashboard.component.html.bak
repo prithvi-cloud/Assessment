@@ -1,0 +1,25 @@
+<!-- <div style="height: 100vh;">
+    <p-speedDial className="speeddial-left" direction="up"></p-speedDial>
+</div> -->
+<!-- staff view -->
+<!-- <div>
+    <p-tabView>
+        <p-tabPanel header="Customer">
+            <app-customer-list-area></app-customer-list-area>
+        </p-tabPanel>
+        <p-tabPanel header="Current Request">
+            <app-request-credit-card-list-area></app-request-credit-card-list-area>
+        </p-tabPanel>
+    </p-tabView>
+</div> -->
+
+<!-- Customer View  -->
+<div class="create-request-container">
+    <button pButton pRipple label="Create Request" class="p-button-success"
+        (click)="creditCardPopupStatus = true"></button>
+</div>
+
+<p-dialog header="Create Credit Card Request" [(visible)]="creditCardPopupStatus" [style]="{width: '50vw'}"
+    [modal]="true">
+    <app-create-request-credit-card></app-create-request-credit-card>
+</p-dialog>
