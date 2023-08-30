@@ -16,6 +16,14 @@
 ```
 -----
 
+### Swagger ###
+* Swagger provides list of available endpoints, along with detailed information about each endpoint's input parameters, expected responses, and authentication requirements. 
+* Use the Swagger UI interface to explore and interact with the API.
+
+http://localhost:8080/swagger-ui.html
+GetMapping :
+http://localhost:8080/v2/api-docs
+
 ### Build the Platform ###
 By default, this will build the dev profile
 
@@ -33,10 +41,3 @@ By default, this will build the dev profile
     cd server-components/creditcardservice
 	mvn spring-boot:run (or) java -jar target/creditcardservice.jar
 
-### Swagger ###
-* Swagger provides list of available endpoints, along with detailed information about each endpoint's input parameters, expected responses, and authentication requirements. 
-* Use the Swagger UI interface to explore and interact with the API.
-
-http://localhost:8080/swagger-ui.html
-### GetMapping :
-http://localhost:8080/v2/api-docs
