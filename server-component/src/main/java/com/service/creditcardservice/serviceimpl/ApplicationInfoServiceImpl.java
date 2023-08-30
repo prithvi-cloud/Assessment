@@ -5,6 +5,7 @@ import com.service.creditcardservice.entity.User;
 import com.service.creditcardservice.repository.ApplicationInfoRepository;
 import com.service.creditcardservice.repository.UserRepository;
 import com.service.creditcardservice.service.ApplicationInfoService;
+import com.service.creditcardservice.util.LogMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,6 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
 
     private final static String PASSWORD = "ito123456";
 
-    private final static String PENDING_STATUS = "pending";
-
     /**
      * Controller Method to add {@link ApplicationInfo}
      *
@@ -65,7 +64,7 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
     public ApplicationInfo createApplicationInfo(
         ApplicationInfo applicationInfo) throws Exception {
 
-        logger.info("Method to create a new application ");
+        logger.info(LogMarker.ENTRY, "Method to create a new application ");
 
         ApplicationInfo application = repository.save(applicationInfo);
 
@@ -85,10 +84,10 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
     public ApplicationInfo updateApplicationInfo(
         ApplicationInfo applicationInfo) throws Exception {
 
-        logger.info("Method to update the application {}", applicationInfo.getApplicationId());
+        logger.info(LogMarker.ENTRY, "Method to update the application {}", applicationInfo.getApplicationId());
 
         ApplicationInfo application = repository.save(applicationInfo);
-        logger.info("Updated application details #{}", application.getApplicationId());
+        logger.info(LogMarker.EXIT, "Updated application details #{}", application.getApplicationId());
         return application;
     }
 
@@ -105,7 +104,7 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
     public String updateStatusById(int userId, int applicationInfoId, String status)
         throws Exception {
 
-        logger.info("Method to update the application status {} "
+        logger.info(LogMarker.ENTRY, "Method to update the application status {} "
             + "for application #{}", status, applicationInfoId);
 
         repository.updateApplicationStatusByApplicationId(applicationInfoId, status);
@@ -115,26 +114,27 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
         if (user.isPresent()) {
             this.sendNotificationToUser(user.get(), status, applicationInfoId);
         }
-        logger.info("Updated the status for application #{}", applicationInfoId);
-        return null;
+        logger.info(LogMarker.EXIT, "Updated the status for application #{}", applicationInfoId);
+        return "Updated the status";
     }
 
     /**
      * Method to Retrieve List of {@link ApplicationInfo}
      *
+     * @param status values of application status {@link String}
      * @return List of {@link ApplicationInfo}
      * @throws Exception Exception to be thrown on Failure
      */
     @Override
     @Transactional
-    public List<ApplicationInfo> getAllApplicationInfo() throws Exception {
+    public List<ApplicationInfo> getAllApplicationInfo(String status) throws Exception {
 
-        logger.info("Method to retrieve all application");
+        logger.info(LogMarker.ENTRY, "Method to retrieve all application");
 
-        List<ApplicationInfo> applicationInfoList = null;
-        repository.getApplicationListByApplicationStatus(PENDING_STATUS);
+        List<ApplicationInfo> applicationInfoList =
+            repository.getApplicationListByApplicationStatus(status);
 
-        logger.info("Retrieved application list of {} records", applicationInfoList.size());
+        logger.info(LogMarker.EXIT, "Retrieved application list of {} records", applicationInfoList.size());
         return applicationInfoList;
     }
 
@@ -148,14 +148,14 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
     @Override
     public Optional<ApplicationInfo> getApplicationInfoById(int applicationInfoId) throws Exception {
 
-        logger.info("Method to retrieve applicationInfo by {} id", applicationInfoId);
+        logger.info(LogMarker.ENTRY, "Method to retrieve applicationInfo by {} id", applicationInfoId);
 
         Optional<ApplicationInfo> applicationInfo = repository.findById(applicationInfoId);
 
         if (!applicationInfo.isPresent()) {
             throw new Exception("Application not found");
         }
-        logger.info("Retrieved application info");
+        logger.info(LogMarker.EXIT, "Retrieved application info");
 
         return applicationInfo;
     }
@@ -167,7 +167,7 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
      */
     private Session setProperties() {
 
-        logger.info("To Create Mail Mime Properties.");
+        logger.info(LogMarker.ENTRY, "To Create Mail Mime Properties.");
 
         Properties props = new Properties();
         props.put("mail.smtp.host", HOST); // SMTP Host
@@ -199,7 +199,7 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
     private void sendNotificationToUser(User user, String status, int applicationNumber)
         throws MessagingException, UnsupportedEncodingException {
 
-        logger.info("Method to send notification to customer {}", user.getFirstName());
+        logger.info(LogMarker.ENTRY, "Method to send notification to customer {}", user.getFirstName());
 
         MimeMessage mimeMessage = new MimeMessage(this.setProperties());
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -223,7 +223,7 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
         // Sending mail
         logger.info("Sending...");
         Transport.send(mimeMessage);
-        logger.info("Sent email to the customer {}", user.getFirstName());
+        logger.info(LogMarker.EXIT, "Sent email to the customer {}", user.getFirstName());
 
     }
 }

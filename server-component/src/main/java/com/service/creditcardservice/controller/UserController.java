@@ -2,6 +2,10 @@ package com.service.creditcardservice.controller;
 
 import com.service.creditcardservice.entity.User;
 import com.service.creditcardservice.service.UserService;
+import com.service.creditcardservice.util.LogMarker;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +30,7 @@ import java.util.Optional;
  * @author Prithvi
  */
 @RestController
-@RequestMapping("/service/users")
+@RequestMapping("/service/users/")
 public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -41,14 +45,18 @@ public class UserController {
      * @return userId of @link {@link User}} Created
      * @throws Exception Exception to be thrown on Failure
      */
+    @ApiOperation(value = "Method to save Memo ")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Memo is created")
+    })
     @PostMapping
     public ResponseEntity<Integer> createUser(@Validated @RequestBody User user) throws Exception {
 
-        logger.info("Creating User with email {}", user.getEmail());
+        logger.info(LogMarker.ENTRY, "Creating User with email {}", user.getEmail());
 
         User userDetails = userService.createUser(user);
 
-        logger.info("Created used with id {}", userDetails.getUserId());
+        logger.info(LogMarker.EXIT, "Created used with id {}", userDetails.getUserId());
 
         return new ResponseEntity<Integer>(userDetails.getUserId(), HttpStatus.CREATED);
 
@@ -61,14 +69,18 @@ public class UserController {
      * @return Updated {@link User}
      * @throws Exception Exception to be thrown on Failure
      */
+    @ApiOperation(value = "Method to save Memo ")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Memo is created")
+    })
     @PutMapping
     public ResponseEntity<Integer> updateUser(@RequestBody User user) throws Exception {
 
-        logger.info("Updating User with Id {}", user.getUserId());
+        logger.info(LogMarker.ENTRY, "Updating User with Id {}", user.getUserId());
 
         User userDetails = userService.updateUser(user);
 
-        logger.info("Updated User with ID {}", user.getUserId());
+        logger.info(LogMarker.EXIT, "Updated User with ID {}", user.getUserId());
 
         return new ResponseEntity<Integer>(user.getUserId(), HttpStatus.OK);
     }
@@ -79,14 +91,18 @@ public class UserController {
      * @param userId value for Deleting {@link User}
      * @throws Exception Exception to be thrown on Failure
      */
+    @ApiOperation(value = "Method to save Memo ")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Memo is created")
+    })
     @DeleteMapping
     public void deleteUser(@RequestParam int userId) throws Exception {
 
-        logger.info("Delete User with User Id {}", userId);
+        logger.info(LogMarker.ENTRY, "Delete User with User Id {}", userId);
 
         userService.deleteUser(userId);
 
-        logger.info("Deleted User with User Id {}", userId);
+        logger.info(LogMarker.EXIT, "Deleted User with User Id {}", userId);
 
     }
 
@@ -96,14 +112,18 @@ public class UserController {
      * @return List of {@link User}
      * @throws Exception Exception to be thrown on Failure
      */
+    @ApiOperation(value = "Method to save Memo ")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Memo is created")
+    })
     @PostMapping("/all")
     public List<User> getAllUsers() throws Exception {
 
-        logger.info("Retrieving All User");
+        logger.info(LogMarker.ENTRY, "Retrieving All User");
 
         List<User> userList = userService.getAllUsers();
 
-        logger.info("Retrieved {} User", userList.size());
+        logger.info(LogMarker.EXIT, "Retrieved {} User", userList.size());
 
         return userList;
     }
@@ -115,14 +135,18 @@ public class UserController {
      * @return {@link User}
      * @throws Exception Exception to be thrown on Failure
      */
+    @ApiOperation(value = "Method to save Memo ")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Memo is created")
+    })
     @GetMapping
     public Optional<User> getUserById(@RequestParam int userId) throws Exception {
 
-        logger.info("Retrieve User with id : {}", userId);
+        logger.info(LogMarker.ENTRY, "Retrieve User with id : {}", userId);
 
         Optional<User> user = userService.getUserById(userId);
 
-        logger.info("Retrieved {} User", userId);
+        logger.info(LogMarker.EXIT, "Retrieved {} User", userId);
         return user;
     }
 }

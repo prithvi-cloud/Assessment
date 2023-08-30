@@ -44,10 +44,11 @@ public interface ApplicationInfoService {
     /**
      * Method to Retrieve List of {@link ApplicationInfo}
      *
+     * @param status values of application status {@link String}
      * @return List of {@link ApplicationInfo}
      * @throws Exception Exception to be thrown on Failure
      */
-    List<ApplicationInfo> getAllApplicationInfo() throws Exception;
+    List<ApplicationInfo> getAllApplicationInfo(String status) throws Exception;
 
     /**
      * Method to Retrieve {@link ApplicationInfo}

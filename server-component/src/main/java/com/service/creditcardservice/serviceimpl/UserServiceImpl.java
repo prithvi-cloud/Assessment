@@ -3,6 +3,7 @@ package com.service.creditcardservice.serviceimpl;
 import com.service.creditcardservice.entity.User;
 import com.service.creditcardservice.repository.UserRepository;
 import com.service.creditcardservice.service.UserService;
+import com.service.creditcardservice.util.LogMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User createUser(User user) throws Exception {
 
-        logger.info("Method to create new user with email {}", user.getEmail());
+        logger.info(LogMarker.ENTRY, "Method to create new user with email {}", user.getEmail());
 
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new Exception("User already exist");
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User updateUser(User user) throws Exception {
 
-        logger.info("Method to update the user {}", user.getUserId());
+        logger.info(LogMarker.ENTRY, "Method to update the user {}", user.getUserId());
 
         if (!userRepository.existsByUserId(user.getUserId())) {
             throw new Exception("User does not exist");
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(int userId) throws Exception {
 
-        logger.info("Method to delete user {}", userId);
+        logger.info(LogMarker.ENTRY, "Method to delete user {}", userId);
 
         if (!userRepository.existsByUserId(userId)) {
             throw new Exception("User does not exist");
@@ -96,7 +97,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<User> getAllUsers() throws Exception {
 
-        logger.info("Method retrieve all the user");
+        logger.info(LogMarker.ENTRY, "Method retrieve all the user");
 
         List<User> userList = userRepository.findAll();
 
@@ -116,7 +117,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Optional<User> getUserById(int userId) throws Exception {
 
-        logger.info("Method to retrieve user by id", userId);
+        logger.info(LogMarker.ENTRY, "Method to retrieve user by id", userId);
 
         Optional<User> user = userRepository.findByUserId(userId);
 
